@@ -57,7 +57,7 @@
             padding: 10px 0;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
         }
 
         .marquee-row {
@@ -81,8 +81,8 @@
 
         .marquee-group {
             display: flex;
-            gap: 25px;
-            padding-right: 25px;
+            gap: 30px;
+            padding-right: 30px;
         }
 
         .marquee-item {
@@ -104,7 +104,10 @@
             border-color: var(--arel-gold);
             transform: scale(1.05) translateY(-2px);
             color: var(--arel-gold);
+            box-shadow: 0 10px 25px rgba(197, 160, 89, 0.2);
         }
+
+        .marquee-row:hover { animation-play-state: paused; }
 
         .marquee-card {
             min-width: 320px;
@@ -119,16 +122,7 @@
         .marquee-card:hover {
             border-color: var(--arel-gold);
             transform: translateY(-10px);
-        }
-
-        /* --- SCROLL PROGRESS LINE --- */
-        #scroll-line {
-            position: fixed;
-            left: 50px; top: 0; width: 3px; height: 100vh;
-            background: linear-gradient(to bottom, #ccc 50%, var(--arel-gold) 50%);
-            background-size: 100% 200%;
-            background-position: 0% 0%;
-            z-index: 100;
+            box-shadow: 0 20px 40px rgba(197, 160, 89, 0.15);
         }
 
         .btn-gold {
@@ -171,7 +165,6 @@
             box-shadow: 0 40px 80px rgba(0,0,0,0.1);
         }
 
-        /* --- SCROLL INDICATOR ANIMATION --- */
         .scroll-indicator {
             position: absolute;
             bottom: 30px;
@@ -182,9 +175,7 @@
             align-items: center;
             gap: 10px;
             opacity: 0.6;
-            transition: opacity 0.3s;
         }
-        .scroll-indicator:hover { opacity: 1; }
         
         .arrow-bounce {
             animation: bounce 2s infinite;
@@ -202,18 +193,27 @@
 </head>
 <body>
 
-    <div id="scroll-line"></div>
     <div class="hero-gradient"></div>
 
-    <!-- HEADER / LOGO -->
-    <nav class="fixed top-0 w-full px-16 py-10 flex justify-between items-center z-[1000]">
-        <!-- GITHUB RAW LOGO LINKI -->
-        <img src="https://raw.githubusercontent.com/yavuzsonal/arelpro/main/logo.png" alt="ArelPro Logo" class="h-12 w-auto object-contain">
-        
-        <div class="hidden md:flex gap-12 text-sm font-bold uppercase tracking-widest items-center">
-            <a href="https://rlx.arel.edu.tr/letter-of-intent/new-form" class="btn-gold px-8 py-3 rounded-full font-semibold">Protokol İmzala ↗</a>
-        </div>
-    </nav>
+    <!-- HEADER / NAV -->
+    <div class="fixed top-0 w-full flex justify-center z-[1000] px-4 pt-6">
+        <nav class="bg-white rounded-full shadow-lg border border-gray-100 flex justify-between items-center w-full max-w-[96%] px-10 py-2">
+            <img src="https://raw.githubusercontent.com/yavuzsonal/arelpro/main/logo.png" alt="ArelPro Logo" class="h-8 w-auto object-contain">
+            
+            <div class="hidden lg:flex gap-5 text-[13px] font-bold uppercase tracking-widest text-[#2B2B2B] items-center">
+                <a href="#" class="hover:text-[#C5A059] transition">Ana Sayfa</a>
+                <a href="#" class="hover:text-[#C5A059] transition">Çalışmalarımız</a>
+                <a href="#" class="hover:text-[#C5A059] transition">İş Birliklerimiz</a>
+                <a href="#" class="hover:text-[#C5A059] transition">Haberler</a>
+                <a href="#" class="hover:text-[#C5A059] transition">Ekip</a>
+                <a href="#" class="hover:text-[#C5A059] transition">İletişim</a>
+            </div>
+
+            <div class="hidden md:block">
+                <a href="https://rlx.arel.edu.tr/letter-of-intent/new-form" class="bg-[#C5A059] text-white px-6 py-2 rounded-full text-[12px] font-bold uppercase tracking-wider">Protokol İmzala</a>
+            </div>
+        </nav>
+    </div>
 
     <!-- 1. HERO -->
     <section class="h-screen flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
@@ -231,10 +231,9 @@
             </p>
         </div>
 
-        <!-- ANIMATED SCROLL INDICATOR -->
         <div class="scroll-indicator">
             <span class="text-[10px] uppercase font-bold tracking-[0.3em] text-charcoal">Aşağı Kaydır</span>
-            <svg class="arrow-bounce w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg class="arrow-bounce w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
             </svg>
         </div>
@@ -259,26 +258,26 @@
         <div class="marquee-container">
             <div class="marquee-row marquee-left">
                 <div class="marquee-group">
-                    <div class="marquee-item">🚀 Mercedes-Benz</div><div class="marquee-item">⚡ Vodafone</div><div class="marquee-item">✈️ THY</div><div class="marquee-item">🏠 Arçelik</div><div class="marquee-item">💻 Logo Yazılım</div>
+                    <div class="marquee-item">🚀 Mercedes-Benz</div><div class="marquee-item">⚡ Vodafone</div><div class="marquee-item">✈️ THY</div><div class="marquee-item">🏠 Arçelik</div><div class="marquee-item">💻 Logo Yazılım</div><div class="marquee-item">📦 Getir</div>
                 </div>
                 <div class="marquee-group">
-                    <div class="marquee-item">🚀 Mercedes-Benz</div><div class="marquee-item">⚡ Vodafone</div><div class="marquee-item">✈️ THY</div><div class="marquee-item">🏠 Arçelik</div><div class="marquee-item">💻 Logo Yazılım</div>
+                    <div class="marquee-item">🚀 Mercedes-Benz</div><div class="marquee-item">⚡ Vodafone</div><div class="marquee-item">✈️ THY</div><div class="marquee-item">🏠 Arçelik</div><div class="marquee-item">💻 Logo Yazılım</div><div class="marquee-item">📦 Getir</div>
                 </div>
             </div>
             <div class="marquee-row marquee-right">
                 <div class="marquee-group">
-                    <div class="marquee-item">🏗️ Akçansa</div><div class="marquee-item">🌍 İGA</div><div class="marquee-item">❄️ Danfoss</div><div class="marquee-item">🎨 MGX Studio</div><div class="marquee-item">☁️ PeakUp</div>
+                    <div class="marquee-item">🏗️ Akçansa</div><div class="marquee-item">🌍 İGA</div><div class="marquee-item">❄️ Danfoss</div><div class="marquee-item">🎨 MGX Studio</div><div class="marquee-item">☁️ PeakUp</div><div class="marquee-item">👶 Ebebek</div>
                 </div>
                 <div class="marquee-group">
-                    <div class="marquee-item">🏗️ Akçansa</div><div class="marquee-item">🌍 İGA</div><div class="marquee-item">❄️ Danfoss</div><div class="marquee-item">🎨 MGX Studio</div><div class="marquee-item">☁️ PeakUp</div>
+                    <div class="marquee-item">🏗️ Akçansa</div><div class="marquee-item">🌍 İGA</div><div class="marquee-item">❄️ Danfoss</div><div class="marquee-item">🎨 MGX Studio</div><div class="marquee-item">☁️ PeakUp</div><div class="marquee-item">👶 Ebebek</div>
                 </div>
             </div>
             <div class="marquee-row marquee-left">
                 <div class="marquee-group">
-                    <div class="marquee-item">⚙️ Sora Makine</div><div class="marquee-item">🛡️ QNB Sigorta</div><div class="marquee-item">📉 Borsa İstanbul</div><div class="marquee-item">🍝 Pastavilla</div><div class="marquee-item">📡 Turkcell</div>
+                    <div class="marquee-item">⚙️ Sora Makine</div><div class="marquee-item">🛡️ QNB Sigorta</div><div class="marquee-item">📉 Borsa İstanbul</div><div class="marquee-item">🍝 Pastavilla</div><div class="marquee-item">👕 DeFacto</div><div class="marquee-item">📡 Turkcell</div>
                 </div>
                 <div class="marquee-group">
-                    <div class="marquee-item">⚙️ Sora Makine</div><div class="marquee-item">🛡️ QNB Sigorta</div><div class="marquee-item">📉 Borsa İstanbul</div><div class="marquee-item">🍝 Pastavilla</div><div class="marquee-item">📡 Turkcell</div>
+                    <div class="marquee-item">⚙️ Sora Makine</div><div class="marquee-item">🛡️ QNB Sigorta</div><div class="marquee-item">📉 Borsa İstanbul</div><div class="marquee-item">🍝 Pastavilla</div><div class="marquee-item">👕 DeFacto</div><div class="marquee-item">📡 Turkcell</div>
                 </div>
             </div>
         </div>
@@ -415,7 +414,7 @@
                     <p class="text-xl italic mb-10 leading-relaxed">"ArelPro markalı dersleri sayesinde teoriden pratiğe geçişim daha sancısız oldu. Dersini aldığım kurumda şu an mühendis olarak çalışıyorum."</p>
                     <div class="flex items-center gap-5">
                         <div class="w-16 h-16 bg-gray-200 rounded-full border-2 border-white shadow-lg"></div>
-                        <div><strong>Emre Ş.</strong><br><span class="opacity-50">Mezun / DeFacto.</span></div>
+                        <div><strong>Emre Ş.</strong><br><span class="opacity-50">Mezun / DeFacto</span></div>
                     </div>
                 </div>
                 <div class="marquee-card" style="min-width: 450px;">
@@ -440,19 +439,19 @@
                 <div class="h-80 bg-gray-200 rounded-[40px] mb-8 overflow-hidden shadow-lg">
                     <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                 </div>
-                <h4 class="text-2xl font-bold">HPE ile Teknoloji Profesyonelleri Stratejik İş Birliği</h4>
+                <h4 class="text-2xl font-bold mb-4">HPE ile Teknoloji Profesyonelleri Yetiştirmeye Yönelik Stratejik İş Birliği</h4>
             </div>
             <div class="group cursor-pointer">
                 <div class="h-80 bg-gray-200 rounded-[40px] mb-8 overflow-hidden shadow-lg">
                     <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                 </div>
-                <h4 class="text-2xl font-bold">Mülakatlarda Kullanman Gereken Anahtar Cümleler</h4>
+                <h4 class="text-2xl font-bold mb-4">Mülakatlarda Mutlaka Kullanman Gereken Anahtar Cümleler</h4>
             </div>
             <div class="group cursor-pointer">
                 <div class="h-80 bg-gray-200 rounded-[40px] mb-8 overflow-hidden shadow-lg">
                     <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                 </div>
-                <h4 class="text-2xl font-bold">Remalab Teknoloji ile Ortak Proje Protokolü</h4>
+                <h4 class="text-2xl font-bold mb-4">Remalab Teknoloji ile Ortak Proje Protokolü</h4>
             </div>
         </div>
     </section>
@@ -460,7 +459,7 @@
     <!-- 11. ÖĞRENCİ - İŞVEREN SEÇİMİ (EN ALTTA) -->
     <section class="py-32 px-16 h-[80vh] flex flex-col md:flex-row gap-10">
         <div class="selection-glass flex-1 group cursor-pointer">
-            <span class="text-xs uppercase tracking-[0.4em] mb-4 opacity-40">Geleceğini Çiz</span>
+            <span class="text-xs uppercase tracking-[0.4em] mb-4 opacity-40">Geleceğine Yatırım Yap</span>
             <h3 class="text-6xl italic group-hover:text-black transition">Öğrenciyim</h3>
         </div>
         <div class="selection-glass flex-1 group cursor-pointer border-2 hover:border-[#C5A059]" onclick="window.location.href='https://rlx.arel.edu.tr/letter-of-intent/new-form'">
@@ -472,25 +471,14 @@
     <!-- FOOTER -->
     <footer class="bg-white py-20 px-16 text-center border-t border-gray-100">
         <div class="flex flex-col md:flex-row gap-8 justify-center items-center mb-10">
-            <a href="https://rlx.arel.edu.tr/letter-of-intent/new-form" class="btn-gold px-8 py-3 rounded-full font-semibold">Yeni İş Birliği Başvurusu</a>
-            <a href="https://kariyer.arel.edu.tr/is-ve-stajyer-formu/" class="font-bold underline uppercase tracking-widest text-sm">İlan Yayınla ↗</a>
+            <a href="https://rlx.arel.edu.tr/letter-of-intent/new-form" class="bg-[#C5A059] text-white px-8 py-3 rounded-full font-semibold">Yeni İş Birliği Başvurusu</a>
+            <a href="https://kariyer.arel.edu.tr/is-ve-stajyer-formu/" class="font-bold underline uppercase tracking-widest text-sm text-[#2B2B2B]">İlan Yayınla ↗</a>
         </div>
-        <p class="opacity-20 text-xs tracking-[0.5em] font-bold">&copy; 2024 ARELPRO | GELECEĞİN İMZASI</p>
+        <p class="opacity-20 text-xs tracking-[0.5em] font-bold">&copy; 2020 ARELPRO | GELECEĞİN İMZASI</p>
     </footer>
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
-
-        // Kalem Çizgisi Animasyonu
-        gsap.to("#scroll-line", {
-            backgroundPosition: "0% 100%",
-            scrollTrigger: {
-                trigger: "body",
-                start: "top top",
-                end: "bottom bottom",
-                scrub: 0.5
-            }
-        });
 
         // Crystal Parallax Effect
         document.addEventListener('mousemove', (e) => {
@@ -505,7 +493,7 @@
         gsap.utils.toArray('section').forEach(section => {
             gsap.from(section, {
                 opacity: 0, y: 30, duration: 1.2,
-                scrollTrigger: { trigger: section, start: "top 90%", toggleActions: "play none none reverse" }
+                scrollTrigger: { trigger: section, start: "top 95%", toggleActions: "play none none reverse" }
             });
         });
     </script>
