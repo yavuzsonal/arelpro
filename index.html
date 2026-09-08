@@ -3,304 +3,472 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArelPro | Geleceğin İmzası</title>
+    <title>ArelPro | Geleceğin Profesyonel İmzası</title>
     
-    <!-- Kütüphaneler -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --pencil-gray: #333333;
-            --ink-gold: #C5A059;
-            --bg-light: #f8f8f8;
+            --arel-gold: #C5A059;
+            --arel-charcoal: #2B2B2B;
+            --arel-light: #F0F4F8;
+            --glass: rgba(255, 255, 255, 0.35);
+            --glass-border: rgba(255, 255, 255, 0.5);
         }
+
         body {
-            margin: 0;
-            background-color: var(--bg-light);
+            background-color: var(--arel-light);
             font-family: 'Inter', sans-serif;
-            color: var(--pencil-gray);
+            color: var(--arel-charcoal);
+            margin: 0;
             overflow-x: hidden;
         }
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1; /* 3D Arka Plan */
-            pointer-events: none;
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        /* --- NODENZA CRYSTAL EFFECT --- */
+        .crystal-card {
+            background: var(--glass);
+            backdrop-filter: blur(25px) saturate(160%);
+            -webkit-backdrop-filter: blur(25px) saturate(160%);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            z-index: 1;
         }
-        section {
-            height: 100vh;
+
+        .hero-gradient {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(197, 160, 89, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(43, 43, 43, 0.05) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        /* --- SEAMLESS INFINITE MARQUEE GENEL YAPI --- */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            padding: 10px 0;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 0 10%;
-            position: relative;
-        }
-        h1, h2 { font-family: 'Playfair Display', serif; }
-        
-        /* Seçenek Alanı (Nodenza Style) */
-        .selection-container {
-            display: flex;
-            width: 100%;
-            height: 80vh;
             gap: 20px;
         }
-        .select-box {
-            flex: 1;
-            background: white;
-            border-radius: 30px;
+
+        .marquee-row {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            border: 1px solid #eee;
-            text-decoration: none;
-            color: inherit;
-        }
-        .select-box:hover {
-            flex: 1.4;
-            background: var(--ink-gold);
-            color: white;
-            box-shadow: 0 30px 60px rgba(197, 160, 89, 0.2);
+            white-space: nowrap;
+            width: max-content;
         }
 
-        .btn-action {
-            background: var(--ink-gold);
+        .marquee-left { animation: scrollLeft 45s linear infinite; }
+        .marquee-right { animation: scrollRight 45s linear infinite; }
+
+        @keyframes scrollLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes scrollRight {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+
+        .marquee-group {
+            display: flex;
+            gap: 25px;
+            padding-right: 25px;
+        }
+
+        /* --- ŞERİT İÇİNDEKİ KART TASARIMI --- */
+        .marquee-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 16px 32px;
+            border-radius: 100px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--arel-charcoal);
+        }
+
+        .marquee-item:hover {
+            border-color: var(--arel-gold);
+            transform: scale(1.05) translateY(-2px);
+            color: var(--arel-gold);
+            box-shadow: 0 10px 25px rgba(197, 160, 89, 0.2);
+        }
+
+        /* Büyük Kart Versiyonu (Dersler ve Projeler için) */
+        .marquee-card {
+            min-width: 320px;
+            background: white;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.4s ease;
+            white-space: normal;
+        }
+        .marquee-card:hover {
+            border-color: var(--arel-gold);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(197, 160, 89, 0.15);
+        }
+
+        /* --- SCROLL PROGRESS LINE --- */
+        #scroll-line {
+            position: fixed;
+            left: 50px; top: 0; width: 3px; height: 100vh;
+            background: linear-gradient(to bottom, #ccc 50%, var(--arel-gold) 50%);
+            background-size: 100% 200%;
+            background-position: 0% 0%;
+            z-index: 100;
+        }
+
+        .btn-gold {
+            background-color: var(--arel-gold);
             color: white;
-            padding: 15px 40px;
+            padding: 16px 40px;
             border-radius: 50px;
             font-weight: 600;
-            transition: 0.3s;
+            transition: 0.4s;
         }
-        .btn-action:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
 
-        /* Waterloo Testimonials */
-        .testimonial-slider {
+        .view-all-link {
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.75rem;
+            border-bottom: 2px solid currentColor;
+            padding-bottom: 4px;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+        .view-all-link:hover { opacity: 1; color: var(--arel-gold); }
+
+        .selection-glass {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(25px);
+            border-radius: 50px;
+            transition: all 0.7s ease;
+            border: 1px solid white;
+            padding: 80px 40px;
             display: flex;
-            gap: 30px;
-            overflow-x: auto;
-            padding: 20px 0;
-            scrollbar-width: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
-        .testimonial-card {
-            min-width: 350px;
+        .selection-glass:hover {
+            flex: 1.8;
             background: white;
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.1);
         }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
 
-    <!-- 3D Arka Plan (Three.js Canvas) -->
-    <canvas id="bg-canvas"></canvas>
+    <div id="scroll-line"></div>
+    <div class="hero-gradient"></div>
 
-    <!-- 1. AÇILIŞ: 3D HERO -->
-    <section id="hero">
-        <div class="text-center">
-            <h1 class="text-7xl mb-6 leading-tight">Akademiyi Sektörle<br><span class="italic text-gold" style="color:var(--ink-gold)">Buluşturan Güç</span></h1>
-            <p class="text-xl max-w-2xl opacity-70">Öğrencileri, akademisyenleri ve iş dünyasını ortak bir üretim ekosisteminde bir araya getiriyoruz.</p>
+    <!-- HEADER -->
+    <nav class="fixed top-0 w-full px-16 py-10 flex justify-between items-center z-[1000]">
+        <img src="https://pro.arel.edu.tr/wp-content/uploads/2022/03/arelpro-logo.png" alt="ArelPro" class="h-14">
+        <div class="hidden md:flex gap-12 text-sm font-bold uppercase tracking-widest items-center">
+            <a href="https://rlx.arel.edu.tr/letter-of-intent/new-form" class="btn-gold px-8 py-3">Protokol İmzala ↗</a>
         </div>
-    </section>
+    </nav>
 
-    <!-- 2. NEDİR? (Nodenza Style Reveal) -->
-    <section id="about">
-        <div class="max-w-4xl">
-            <h2 class="text-6xl mb-8">ArelPro Nedir?</h2>
-            <p class="text-2xl leading-relaxed opacity-80">
-                ArelPro, İstanbul Arel Üniversitesi'nin iş dünyasıyla kurduğu en stratejik köprüdür. Sektörün ihtiyaç duyduğu yetkinlikleri, akademik disiplinle harmanlayarak geleceğin profesyonellerini henüz kampüsteyken inşa eden bir entegrasyon merkezidir.
+    <!-- 1. HERO -->
+    <section class="h-screen flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
+        <div class="crystal-card w-64 h-96 -top-10 left-20 opacity-60" id="c1" style="transform: rotate(20deg)"></div>
+        <div class="crystal-card w-80 h-80 bottom-20 -right-20 opacity-40" id="c2" style="transform: rotate(-15deg)"></div>
+        
+        <div class="relative z-10">
+            <h1 class="text-7xl md:text-9xl mb-8 leading-tight">
+                Akademiyi Sektörle <br> 
+                <span style="color:var(--arel-gold); font-style: italic;">Buluşturan Güç</span>
+            </h1>
+            <p class="text-xl md:text-3xl opacity-60 max-w-3xl mx-auto leading-relaxed">
+                Öğrencileri, akademisyenleri ve iş dünyasını ortak bir üretim ekosisteminde bir araya getiriyoruz.
             </p>
         </div>
     </section>
 
-    <!-- 3. SEÇENEK ALANI -->
-    <section id="selection">
-        <h2 class="text-4xl mb-12">Yolculuğuna Nereden Başlıyorsun?</h2>
-        <div class="selection-container">
-            <a href="#ogrenci-flow" class="select-box group">
-                <span class="text-sm tracking-widest uppercase mb-4 opacity-50">Öğrenciler İçin</span>
-                <h3 class="text-5xl mb-6">Öğrenciyim</h3>
-                <p class="px-10 text-center opacity-60">Kariyerini markalı dersler ve saha deneyimiyle şekillendir.</p>
-            </a>
-            <a href="https://rlx.arel.edu.tr/letter-of-intent/new-form" class="select-box group">
-                <span class="text-sm tracking-widest uppercase mb-4 opacity-50">İşverenler İçin</span>
-                <h3 class="text-5xl mb-6">İşverenim</h3>
-                <p class="px-10 text-center opacity-60">Geleceğin yeteneklerini keşfet ve dijital iş birliği protokolünü başlat.</p>
-            </a>
+    <!-- 2. ARELPRO NEDİR? -->
+    <section class="py-32 px-16 md:px-48">
+        <div class="max-w-5xl">
+            <h2 class="text-6xl mb-12">ArelPro Nedir?</h2>
+            <p class="text-3xl md:text-4xl leading-tight opacity-90">
+                ArelPro, teoriyi <span class="text-gray-400 italic">uygulamayla</span> buluşturan, öğrenmeyi <span style="color:var(--arel-gold)">gerçek hayat deneyimiyle</span> bütünleştiren ve üniversite ile sektör arasında güçlü bağlar kuran bütünleşik bir eğitim modelidir.
+            </p>
         </div>
     </section>
 
-    <!-- 4. BAŞLIK BAŞLIK KAYAN ALAN (Sticky Flow) -->
-    <div id="sticky-flow">
-        <!-- Markalı Dersler -->
-        <section class="flow-section" style="background: white;">
-            <div class="w-full">
-                <h2 class="text-5xl mb-10">Markalı Dersler</h2>
-                <div class="flex overflow-x-auto gap-8 no-scrollbar pb-10">
-                    <div class="min-w-[400px] h-64 bg-gray-100 rounded-3xl p-8 flex flex-col justify-end">
-                        <h4 class="text-2xl font-bold">Mercedes-Benz</h4>
-                        <p>Global Lojistik Operasyonları</p>
-                    </div>
-                    <div class="min-w-[400px] h-64 bg-gray-100 rounded-3xl p-8 flex flex-col justify-end">
-                        <h4 class="text-2xl font-bold">Vodafone</h4>
-                        <p>Büyük Veri Analitiği</p>
-                    </div>
-                    <div class="min-w-[400px] h-64 bg-gray-100 rounded-3xl p-8 flex flex-col justify-end">
-                        <h4 class="text-2xl font-bold">THY</h4>
-                        <p>Havacılıkta Hizmet Tasarımı</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Diğer Başlıklar -->
-        <section class="flow-section"><h2 class="text-6xl">Proje Dersleri</h2></section>
-        <section class="flow-section"><h2 class="text-6xl">Zirveler</h2></section>
-        <section class="flow-section"><h2 class="text-6xl">Saha Gezileri</h2></section>
-        <section class="flow-section"><h2 class="text-6xl">Sektörel Çalıştaylar</h2></section>
-    </div>
-
-    <!-- 5. İŞVEREN ÖZEL & İLAN (CTA) -->
-    <section id="employer-cta" class="bg-black text-white">
-        <div class="text-center">
-            <h2 class="text-5xl mb-8 text-gold" style="color:var(--ink-gold)">Yetenek Kapınızda</h2>
-            <p class="text-xl mb-12 opacity-70">Dijital protokolümüzü imzalayarak ilanlarınızı hemen yayınlayabilirsiniz.</p>
-            <div class="flex gap-6 justify-center">
-                <a href="https://rlx.arel.edu.tr/letter-of-intent/new-form" class="btn-action">Dijital Protokolü Başlat</a>
-                <a href="https://kariyer.arel.edu.tr/is-ve-stajyer-formu/" class="px-10 py-4 border border-white rounded-full hover:bg-white hover:text-black transition">İlan Yayınla</a>
-            </div>
+    <!-- 3. İŞ BİRLİKLERİMİZ -->
+    <section class="py-20 overflow-hidden">
+        <div class="px-16 flex justify-between items-center mb-12">
+            <h2 class="text-5xl uppercase tracking-tighter opacity-20 font-bold">İş Birliklerimiz</h2>
+            <a href="#" class="view-all-link">Tümünü Gör</a>
         </div>
-    </section>
-
-    <!-- 6. NELER DEDİLER? (Waterloo Style) -->
-    <section class="bg-white">
-        <div class="w-full">
-            <h2 class="text-5xl mb-16">Neler Dediler?</h2>
-            <div class="testimonial-slider">
-                <div class="testimonial-card">
-                    <p class="text-lg italic mb-6">"Markalı dersler sayesinde sektörün içinden uzmanlarla tanıştım ve mezun olmadan iş teklifimi aldım."</p>
-                    <div class="font-bold">Ece Kaya - Mezun</div>
+        <div class="marquee-container">
+            <div class="marquee-row marquee-left">
+                <div class="marquee-group">
+                    <div class="marquee-item">🚀 Mercedes-Benz</div><div class="marquee-item">⚡ Vodafone</div><div class="marquee-item">✈️ THY</div><div class="marquee-item">🏠 Arçelik</div><div class="marquee-item">💻 Logo Yazılım</div>
                 </div>
-                <div class="testimonial-card">
-                    <p class="text-lg italic mb-6">"ArelPro ile yaptığımız iş birliği, ihtiyacımız olan nitelikli stajyer havuzuna doğrudan erişim sağladı."</p>
-                    <div class="font-bold">Murat Genç - İK Müdürü</div>
+                <div class="marquee-group">
+                    <div class="marquee-item">🚀 Mercedes-Benz</div><div class="marquee-item">⚡ Vodafone</div><div class="marquee-item">✈️ THY</div><div class="marquee-item">🏠 Arçelik</div><div class="marquee-item">💻 Logo Yazılım</div>
                 </div>
-                <div class="testimonial-card">
-                    <p class="text-lg italic mb-6">"Saha gezileri ufkumu açtı, derslerde gördüğüm her şeyin sahada nasıl karşılık bulduğunu gördüm."</p>
-                    <div class="font-bold">Ali S. - 3. Sınıf Öğrencisi</div>
+            </div>
+            <div class="marquee-row marquee-right">
+                <div class="marquee-group">
+                    <div class="marquee-item">🏗️ Akçansa</div><div class="marquee-item">🌍 İGA</div><div class="marquee-item">❄️ Danfoss</div><div class="marquee-item">🎨 MGX Studio</div><div class="marquee-item">☁️ PeakUp</div>
+                </div>
+                <div class="marquee-group">
+                    <div class="marquee-item">🏗️ Akçansa</div><div class="marquee-item">🌍 İGA</div><div class="marquee-item">❄️ Danfoss</div><div class="marquee-item">🎨 MGX Studio</div><div class="marquee-item">☁️ PeakUp</div>
+                </div>
+            </div>
+            <div class="marquee-row marquee-left">
+                <div class="marquee-group">
+                    <div class="marquee-item">⚙️ Sora Makine</div><div class="marquee-item">🛡️ QNB Sigorta</div><div class="marquee-item">📉 Borsa İstanbul</div><div class="marquee-item">🍝 Pastavilla</div><div class="marquee-item">📡 Turkcell</div>
+                </div>
+                <div class="marquee-group">
+                    <div class="marquee-item">⚙️ Sora Makine</div><div class="marquee-item">🛡️ QNB Sigorta</div><div class="marquee-item">📉 Borsa İstanbul</div><div class="marquee-item">🍝 Pastavilla</div><div class="marquee-item">📡 Turkcell</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 7. HABERLER & BLOG -->
-    <section id="news-blog">
-        <div class="w-full flex justify-between items-end mb-12">
-            <h2 class="text-5xl">Haberler & Blog</h2>
-            <a href="#" class="font-bold underline">Hepsini Gör</a>
+    <!-- 4. MARKALI DERSLER -->
+    <section class="py-24">
+        <div class="px-16 flex justify-between items-center mb-12">
+            <h2 class="text-5xl uppercase tracking-tighter opacity-20 font-bold">Markalı Dersler</h2>
+            <a href="#" class="view-all-link">Tümünü Gör</a>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
+        <div class="marquee-container">
+            <div class="marquee-row marquee-left">
+                <div class="marquee-group">
+                    <div class="marquee-card"><strong>Mercedes-Benz</strong><br>Lojistik Yönetimi</div>
+                    <div class="marquee-card"><strong>Vodafone</strong><br>Büyük Veri Analitiği</div>
+                    <div class="marquee-card"><strong>THY</strong><br>Havacılıkta Hizmet Tasarımı</div>
+                    <div class="marquee-card"><strong>Arçelik</strong><br>Üretim Teknolojileri</div>
+                </div>
+                <div class="marquee-group">
+                    <div class="marquee-card"><strong>Mercedes-Benz</strong><br>Lojistik Yönetimi</div>
+                    <div class="marquee-card"><strong>Vodafone</strong><br>Büyük Veri Analitiği</div>
+                    <div class="marquee-card"><strong>THY</strong><br>Havacılıkta Hizmet Tasarımı</div>
+                    <div class="marquee-card"><strong>Arçelik</strong><br>Üretim Teknolojileri</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. PROJE DERSLERİ -->
+    <section class="py-24 bg-white">
+        <div class="px-16 flex justify-between items-center mb-12">
+            <h2 class="text-5xl uppercase tracking-tighter opacity-20 font-bold">Proje Dersleri</h2>
+            <a href="#" class="view-all-link">Tümünü Gör</a>
+        </div>
+        <div class="marquee-container">
+            <div class="marquee-row marquee-right">
+                <div class="marquee-group">
+                    <div class="marquee-card">Sürdürülebilir Kampüs Projesi</div>
+                    <div class="marquee-card">Blockchain Finans Masası</div>
+                    <div class="marquee-card">Otonom Araç Yazılımı</div>
+                    <div class="marquee-card">Yapay Zeka Destekli İK</div>
+                </div>
+                <div class="marquee-group">
+                    <div class="marquee-card">Sürdürülebilir Kampüs Projesi</div>
+                    <div class="marquee-card">Blockchain Finans Masası</div>
+                    <div class="marquee-card">Otonom Araç Yazılımı</div>
+                    <div class="marquee-card">Yapay Zeka Destekli İK</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. ZİRVELER -->
+    <section class="py-24">
+        <div class="px-16 flex justify-between items-center mb-12">
+            <h2 class="text-5xl uppercase tracking-tighter opacity-20 font-bold">Zirveler</h2>
+            <a href="#" class="view-all-link">Tümünü Gör</a>
+        </div>
+        <div class="marquee-container">
+            <div class="marquee-row marquee-left">
+                <div class="marquee-group">
+                    <div class="marquee-card">Kariyer Zirvesi '26</div>
+                    <div class="marquee-card">Global Girişimcilik Haftası</div>
+                    <div class="marquee-card">Havacılık ve Uzay Günleri</div>
+                    <div class="marquee-card">Dijital Dönüşüm Forumu</div>
+                </div>
+                <div class="marquee-group">
+                    <div class="marquee-card">Kariyer Zirvesi '26</div>
+                    <div class="marquee-card">Global Girişimcilik Haftası</div>
+                    <div class="marquee-card">Havacılık ve Uzay Günleri</div>
+                    <div class="marquee-card">Dijital Dönüşüm Forumu</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. SAHA GEZİLERİ -->
+    <section class="py-24 bg-slate-900 text-white">
+        <div class="px-16 flex justify-between items-center mb-12">
+            <h2 class="text-5xl uppercase tracking-tighter opacity-20 font-bold">Saha Gezileri</h2>
+            <a href="#" class="view-all-link text-white/60 hover:text-white">Tümünü Gör</a>
+        </div>
+        <div class="marquee-container">
+            <div class="marquee-row marquee-right">
+                <div class="marquee-group">
+                    <div class="marquee-item">Sora Makine Fabrika</div>
+                    <div class="marquee-item">THY Teknik Hangarlar</div>
+                    <div class="marquee-item">Borsa İstanbul</div>
+                    <div class="marquee-item">QNB Sigorta Genel Müdürlük</div>
+                    <div class="marquee-item">Arçelik Çayırova Tesisi</div>
+                </div>
+                <div class="marquee-group">
+                    <div class="marquee-item">Sora Makine Fabrika</div>
+                    <div class="marquee-item">THY Teknik Hangarlar</div>
+                    <div class="marquee-item">Borsa İstanbul</div>
+                    <div class="marquee-item">QNB Sigorta Genel Müdürlük</div>
+                    <div class="marquee-item">Arçelik Çayırova Tesisi</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. SEKTÖREL ÇALIŞTAYLAR -->
+    <section class="py-24">
+        <div class="px-16 flex justify-between items-center mb-12">
+            <h2 class="text-5xl uppercase tracking-tighter opacity-20 font-bold">Sektörel Çalıştaylar</h2>
+            <a href="#" class="view-all-link">Tümünü Gör</a>
+        </div>
+        <div class="marquee-container">
+            <div class="marquee-row marquee-left">
+                <div class="marquee-group">
+                    <div class="marquee-card">Lojistikte Yeşil Dönüşüm</div>
+                    <div class="marquee-card">Yazılımda Agile Yaklaşımlar</div>
+                    <div class="marquee-card">Dijital İK Bildirgesi</div>
+                    <div class="marquee-card">Finans 4.0 Strateji Masası</div>
+                </div>
+                <div class="marquee-group">
+                    <div class="marquee-card">Lojistikte Yeşil Dönüşüm</div>
+                    <div class="marquee-card">Yazılımda Agile Yaklaşımlar</div>
+                    <div class="marquee-card">Dijital İK Bildirgesi</div>
+                    <div class="marquee-card">Finans 4.0 Strateji Masası</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. NELER DEDİLER? -->
+    <section class="py-40 bg-gray-50 overflow-hidden">
+        <div class="px-16">
+            <h2 class="text-6xl mb-24 text-center italic font-bold">Neler Dediler?</h2>
+            <div class="flex gap-12 overflow-x-auto no-scrollbar pb-10">
+                <div class="marquee-card" style="min-width: 450px;">
+                    <p class="text-xl italic mb-10 leading-relaxed">"ArelPro markalı dersleri sayesinde teoriden pratiğe geçişim inanılmaz sancısız oldu."</p>
+                    <div class="flex items-center gap-5">
+                        <div class="w-16 h-16 bg-gray-200 rounded-full border-2 border-white shadow-lg"></div>
+                        <div><strong>Selen G.</strong><br><span class="opacity-50">Mezun / Mercedes-Benz</span></div>
+                    </div>
+                </div>
+                <div class="marquee-card" style="min-width: 450px;">
+                    <p class="text-xl italic mb-10 leading-relaxed">"Aradığımız taze kanı projeleri çalışan ekipte bulduk."</p>
+                    <div class="flex items-center gap-5">
+                        <div class="w-16 h-16 bg-gray-200 rounded-full border-2 border-white shadow-lg"></div>
+                        <div><strong>Hakan Mert</strong><br><span class="opacity-50">İK Direktörü / Vodafone</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. HABERLER & BLOG -->
+    <section class="py-32 px-16">
+        <div class="flex justify-between items-end mb-16">
+            <h2 class="text-6xl italic font-bold">Haberler & <span style="color:var(--arel-gold)">Blog</span></h2>
+            <a href="#" class="view-all-link">Tümünü Gör</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div class="group cursor-pointer">
-                <div class="h-80 bg-gray-200 rounded-3xl overflow-hidden mb-6">
-                    <div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800')"></div>
+                <div class="h-80 bg-gray-200 rounded-[40px] mb-8 overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                 </div>
-                <h4 class="text-2xl font-bold">2024 Sektör Buluşmaları Tamamlandı</h4>
-                <p class="opacity-60">Binlerce öğrenci ve yüzlerce marka kampüste buluştu.</p>
+                <h4 class="text-2xl font-bold">Geleceğin Yetenekleri Zirvesi</h4>
             </div>
             <div class="group cursor-pointer">
-                <div class="h-80 bg-gray-200 rounded-3xl overflow-hidden mb-6">
-                    <div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800')"></div>
+                <div class="h-80 bg-gray-200 rounded-[40px] mb-8 overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                 </div>
-                <h4 class="text-2xl font-bold">Kariyer Yolculuğunda İmza Etkisi</h4>
-                <p class="opacity-60">Mülakatlarda kendinizi nasıl öne çıkarırsınız?</p>
+                <h4 class="text-2xl font-bold">Mülakatlarda Başarının Sırları</h4>
+            </div>
+            <div class="group cursor-pointer">
+                <div class="h-80 bg-gray-200 rounded-[40px] mb-8 overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                </div>
+                <h4 class="text-2xl font-bold">Remalab ile Yeni Protokol</h4>
             </div>
         </div>
     </section>
 
-    <footer class="py-20 text-center opacity-40 text-sm">
-        &copy; 2024 ArelPro | İstanbul Arel Üniversitesi Entegrasyon Merkezi
+    <!-- 11. ÖĞRENCİ - İŞVEREN SEÇİMİ (EN ALTTA) -->
+    <section class="py-32 px-16 h-[80vh] flex flex-col md:flex-row gap-10">
+        <div class="selection-glass flex-1 group cursor-pointer">
+            <span class="text-xs uppercase tracking-[0.4em] mb-4 opacity-40">Geleceğini Çiz</span>
+            <h3 class="text-6xl italic group-hover:text-black transition">Öğrenciyim</h3>
+        </div>
+        <div class="selection-glass flex-1 group cursor-pointer border-2 hover:border-[#C5A059]" onclick="window.location.href='https://rlx.arel.edu.tr/letter-of-intent/new-form'">
+            <span class="text-xs uppercase tracking-[0.4em] mb-4 opacity-40">Yetenek Keşfet</span>
+            <h3 class="text-6xl italic" style="color:var(--arel-gold)">İşverenim</h3>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-white py-20 px-16 text-center border-t border-gray-100">
+        <p class="opacity-20 text-xs tracking-[0.5em] font-bold">&copy; 2024 ARELPRO | GELECEĞİN İMZASI</p>
     </footer>
 
     <script>
-        // 1. THREE.JS: Arka Plan 3D Grafik (Abstract Floating Particles)
-        const canvas = document.querySelector('#bg-canvas');
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 5;
-
-        // Geometrik Nesneler (Nodenza ferahlığı için beyaz/şeffaf yapılar)
-        const geometry = new THREE.IcosahedronGeometry(2, 1);
-        const material = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true, transparent: true, opacity: 0.05 });
-        const sphere = new THREE.Mesh(geometry, material);
-        scene.add(sphere);
-
-        function animate() {
-            requestAnimationFrame(animate);
-            sphere.rotation.y += 0.002;
-            sphere.rotation.x += 0.001;
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        // 2. GSAP SCROLL ANIMATIONS
         gsap.registerPlugin(ScrollTrigger);
 
-        // Hero Metin Animasyonu
-        gsap.from("#hero div", {
-            y: 100, opacity: 0, duration: 1.5, ease: "power4.out"
-        });
-
-        // Sayfa Kaydırıldıkça 3D Nesneyi Hareket Ettir
-        gsap.to(sphere.position, {
-            z: 2, y: 1,
+        // Kalem Çizgisi Animasyonu
+        gsap.to("#scroll-line", {
+            backgroundPosition: "0% 100%",
             scrollTrigger: {
                 trigger: "body",
                 start: "top top",
                 end: "bottom bottom",
-                scrub: 1
+                scrub: 0.5
             }
         });
 
-        // "ArelPro Nedir?" Reveal
-        gsap.from("#about div", {
-            opacity: 0, x: -50,
-            scrollTrigger: {
-                trigger: "#about",
-                start: "top 70%",
-                end: "top 30%",
-                scrub: true
-            }
+        // Crystal Parallax Effect
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth - 0.5;
+            const y = e.clientY / window.innerHeight - 0.5;
+            gsap.to("#c1", { x: x * 50, y: y * 50, duration: 1.5, ease: "power2.out" });
+            gsap.to("#c2", { x: x * -80, y: y * -80, duration: 1.5, ease: "power2.out" });
         });
 
-        // Bölüm Başlıkları Dinamik Akış
-        const flowSections = gsap.utils.toArray(".flow-section h2");
-        flowSections.forEach(title => {
-            gsap.from(title, {
-                scale: 0.8, opacity: 0,
-                scrollTrigger: {
-                    trigger: title,
-                    start: "top 90%",
-                    end: "top 50%",
-                    scrub: true
-                }
+        // Section Reveal
+        gsap.utils.toArray('section').forEach(section => {
+            gsap.from(section, {
+                opacity: 0, y: 30, duration: 1.2,
+                scrollTrigger: { trigger: section, start: "top 90%", toggleActions: "play none none reverse" }
             });
-        });
-
-        // Responsive Resizing
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
         });
     </script>
 </body>
